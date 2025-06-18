@@ -3,6 +3,7 @@ package org.example.backendproject.stompwebsocket.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backendproject.stompwebsocket.dto.ChatMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -24,8 +25,14 @@ public class ChatController {
     private final SimpMessagingTemplate template;
 
     //동적으로 방 생성 가능
+    @Value("${PROJECT_NAME:web Server}")
+    private String instansName;
+
     @MessageMapping("/chat.sendMessage")
     public void sendmessage(ChatMessage message){
+
+        message.setMessage(instansName+" "+message.getMessage());
+
 
         if (message.getTo() != null && !message.getTo().isEmpty()) {
             // 귓속말
