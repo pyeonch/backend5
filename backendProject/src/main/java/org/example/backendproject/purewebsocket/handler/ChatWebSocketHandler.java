@@ -52,7 +52,6 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         }
         rooms.get(roomID).add(session); //해당 방에 세션 추가
 
-
         for (WebSocketSession s : rooms.get(roomID)){
        // for (WebSocketSession s : sessions) {
             if (s.isOpen()){
@@ -62,7 +61,6 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
                 System.out.println("전송된 메세지 = "+chatMessage.getMessage());
             }
         }
-
 
     }
 

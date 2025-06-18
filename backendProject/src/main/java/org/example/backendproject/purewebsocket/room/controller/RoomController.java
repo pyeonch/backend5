@@ -24,4 +24,5 @@ public class RoomController {
     public ChatRoom createRoom(@PathVariable String roomId){
         return roomService.createRoom(roomId);
     }
+
 }
