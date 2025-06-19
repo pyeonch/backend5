@@ -8,7 +8,7 @@ services:
       - "3307:3306"
     environment:
       MYSQL_DATABASE: backendDB
-      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
     volumes:
       - ./volumes/mysql-data:/var/lib/mysql #내가 지정한 경로
     healthcheck:
@@ -62,7 +62,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - backend1
       - backend2
