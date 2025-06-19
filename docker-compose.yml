@@ -1,5 +1,11 @@
 services:
 
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+
 
   database:
     image: mysql:8
