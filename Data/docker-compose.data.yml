@@ -1,5 +1,7 @@
 services:
 
+# docker network  create prod_server     도커 네트워크 만들어야 함!
+
   redis:
     image: redis
     container_name: redis
