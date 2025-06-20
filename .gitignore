@@ -1,4 +1,4 @@
-CICD/jenkins/volumes
+CICD/volumes
 Data/volumes
 backendProject/.gradle
 backendProject/.idea

@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PROJECT_DIR = '/var/jenkins_home/workspace/backend5_local/backendProject'   // 백앤드 서버 프로젝트 폴더
+        PROJECT_DIR = '/var/jenkins_home/workspace/backend5/backendProject'   // 백앤드 서버 프로젝트 폴더
         COMPOSE_FILE = 'docker-compose.backend.yml'
 
     }
