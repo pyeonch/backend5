@@ -14,8 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserRepository userRepository;
 
+
+    private final UserRepository userRepository;
 
     @Transactional
     public void signUp(SignUpRequestDTO dto){
@@ -44,11 +45,9 @@ public class AuthService {
 
 
 
-    public UserDTO
-    login(LoginRequestDTO loginRequestDTO){
+    public UserDTO login(LoginRequestDTO loginRequestDTO){
         User user = userRepository.findByUserid(loginRequestDTO.getUserid())
                 .orElseThrow(()->new RuntimeException("해당 유저를 찾을 수 없습니다."));
-
         if (!loginRequestDTO.getPassword().equals(user.getPassword())){
             throw new RuntimeException("비밀번호가 일치 하지 않습니다.");
         }
