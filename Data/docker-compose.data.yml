@@ -9,6 +9,7 @@ services:
       - "6379:6379"
     networks:
       - prod_server
+    restart: unless-stopped
 
 
   database:
@@ -27,6 +28,8 @@ services:
       retries: 10
     networks:
       - prod_server
+    restart: unless-stopped
+
 
 networks:
   prod_server:
