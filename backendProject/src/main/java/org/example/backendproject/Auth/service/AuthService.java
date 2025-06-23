@@ -1,7 +1,9 @@
 package org.example.backendproject.Auth.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.backendproject.Auth.dto.LoginRequestDTO;
 import org.example.backendproject.Auth.dto.SignUpRequestDTO;
+import org.example.backendproject.user.dto.UserDTO;
 import org.example.backendproject.user.entity.User;
 import org.example.backendproject.user.entity.UserProfile;
 import org.example.backendproject.user.repository.UserRepository;
@@ -37,6 +39,30 @@ public class AuthService {
         user.setUserProfile(profile);
 
         userRepository.save(user);
+
+    }
+
+
+
+    public UserDTO
+    login(LoginRequestDTO loginRequestDTO){
+        User user = userRepository.findByUserid(loginRequestDTO.getUserid())
+                .orElseThrow(()->new RuntimeException("해당 유저를 찾을 수 없습니다."));
+
+        if (!loginRequestDTO.getPassword().equals(user.getPassword())){
+            throw new RuntimeException("비밀번호가 일치 하지 않습니다.");
+        }
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUserid(user.getUserid());
+
+        userDTO.setUsername(user.getUserProfile().getUsername());
+        userDTO.setEmail(user.getUserProfile().getEmail());
+        userDTO.setPhone(user.getUserProfile().getPhone());
+        userDTO.setAddress(user.getUserProfile().getAddress());
+
+        return userDTO;
 
     }
 
