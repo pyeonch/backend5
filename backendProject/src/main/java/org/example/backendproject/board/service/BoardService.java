@@ -1,10 +1,13 @@
 package org.example.backendproject.board.service;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.backendproject.board.dto.BoardDTO;
 import org.example.backendproject.board.entity.Board;
-import org.example.backendproject.board.repository.BatchRepositoty;
+import org.example.backendproject.board.repository.BatchRepository;
 import org.example.backendproject.board.repository.BoardRepository;
 import org.example.backendproject.user.entity.User;
 import org.example.backendproject.user.repository.UserRepository;
@@ -24,8 +27,9 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final BatchRepository batchRepository;
+    private final EntityManager  em;
 
-    private final BatchRepositoty batchRepositoty;
 
     /** 글 등록 **/
     @Transactional
@@ -155,12 +159,30 @@ public class BoardService {
 
 
             // 1. MySQL로 INSERT
-            batchRepositoty.batchInsert(batchList);
+            batchRepository.batchInsert(batchList);
 
         }
 
         Long end = System.currentTimeMillis();
         log.info("[BOARD][BATCH] 전체 저장 소요 시간(ms): {}", (end - start));
+        log.info("[BOARD][BATCH] 데이터 사이즈 : {}", boardDTOList.size());
     }
+
+    @Transactional
+    public void boardSaveAll(List<Board> boardList){
+        long start = System.currentTimeMillis();
+
+        for (int i = 0; i<boardList.size(); i++) {
+            em.persist(boardList.get(i));
+            if (i % 1000 == 0){
+                em.flush();
+                em.clear();
+            }
+        }
+
+        long end = System.currentTimeMillis();
+        System.out.println("JPA Board saveAll 저장 소요 시간(ms): " + (end - start));
+    }
+
 
 }

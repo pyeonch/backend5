@@ -3,9 +3,12 @@ package org.example.backendproject.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backendproject.user.dto.UserDTO;
+import org.example.backendproject.user.entity.User;
 import org.example.backendproject.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user") //변경
@@ -36,5 +39,24 @@ public class UserController {
         return ResponseEntity.ok(updated);
     }
 
+    //아래는 순환참조가 되는  예제
+//    @GetMapping("/profile/{profileId}")
+//    public User getProfile2(@PathVariable Long profileId)  {
+//        return userService.getProfile2(profileId);
+//    }
 
+    //dto로 순환참조 방지
+    @GetMapping("/profile/{profileId}")
+    public UserDTO getProfile(@PathVariable Long profileId)  {
+        return userService.getProfile(profileId);
+    }
+
+
+
+
+    @PostMapping("/jpaSaveAll")
+    public String saveAll(@RequestBody List<User> users) {
+        userService.saveAllUsers(users);
+        return "ok";
+    }
 }

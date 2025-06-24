@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class BatchRepositoty {
+public class BatchRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

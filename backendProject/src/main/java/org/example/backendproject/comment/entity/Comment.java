@@ -45,10 +45,13 @@ public class Comment extends BaseTime {
     private Board board;
 
 
-    //여러개의 댓글은 하나의 부도 댓글을 가짐
+
+    //여러개의 댓글은 하나의 부모 댓글을 가짐
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Comment parent; //대댓글
+
+
 
     //하나의 댓글에 여러 대댓글을 가질 수 있음
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -57,3 +60,7 @@ public class Comment extends BaseTime {
 
 
 }
+
+
+
+
