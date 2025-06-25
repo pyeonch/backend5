@@ -23,18 +23,17 @@ public class JwtTokenProvider {
         //현재 로그인한 사용자의 정보를 꺼냄
         CustomUserDetails  customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         Date expiryDate = new Date(new Date().getTime() + expirationMillis); //토큰 만료시간 생성 (밀리초 단위까지)
-
+        //payload
         Claims claims = Jwts.claims();
         claims.put("user-id",customUserDetails.getId());
         claims.put("username",customUserDetails.getUsername());
-
 
         return Jwts.builder()
                 .setSubject(customUserDetails.getUsername())//이 JWT 토큰의 주체를 지정
                 .setClaims(claims) //payload
                 .setIssuedAt(new Date()) //토큰 발급시간
                 .setExpiration(expiryDate) //토큰 만료 시간
-                .signWith(secretKey, SignatureAlgorithm.ES512) //시크릿 키와 알고리즘을 이용해서 암호화해서 서명
+                .signWith(secretKey, SignatureAlgorithm.HS512) //시크릿 키와 알고리즘을 이용해서 암호화해서 서명
                 .compact(); //  <- 위에서 저장한 정보들을 최종적으로 문자열로 만들어주는 메서드
 
     }
