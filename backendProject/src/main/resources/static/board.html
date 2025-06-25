@@ -133,7 +133,7 @@
         const keyword = document.getElementById('search').value;
         //fetchWithAuth(`/boards/search?keyword=${encodeURIComponent(keyword)}&page=${page}&size=${pageSize}&sort=title,desc`,{ //정렬
       //  fetchWithAuth(`/boards/search?keyword=${encodeURIComponent(keyword)}&page=${page}&size=${pageSize}`,{  // jpa 검색
-        fetchWithAuth(`/api/boards/elasticsearch?keyword=${encodeURIComponent(keyword)}&page=${page}&size=${pageSize}`,{ //엘라스틱서치 검색
+        fetchWithAuth(`/boards/elasticsearch?keyword=${encodeURIComponent(keyword)}&page=${page}&size=${pageSize}`,{ //엘라스틱서치 검색
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             headers: (localStorage.getItem("accessToken"))
                 ? { "Authorization": "Bearer " + localStorage.getItem("accessToken") }
@@ -193,7 +193,7 @@
     //페이징 적용
     function loadBoards(page = 0) {
         //fetchWithAuth(`/boards?page=${page}&size=${pageSize}&sort=title,desc`, { //정렬
-        fetchWithAuth(`/api/boards/all?page=${page}&size=${pageSize}`, {
+        fetchWithAuth(`/boards/all?page=${page}&size=${pageSize}`, {
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             headers: (localStorage.getItem("accessToken"))
                 ? { "Authorization": "Bearer " + localStorage.getItem("accessToken") }
@@ -288,7 +288,7 @@
     //상세보기
     function showDetail(id) {
 
-        fetchWithAuth(`/api/boards/${id}`, {
+        fetchWithAuth(`/boards/${id}`, {
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             headers: (localStorage.getItem("accessToken"))
                 ? { "Authorization": "Bearer " + localStorage.getItem("accessToken") }
@@ -324,7 +324,7 @@
     }
     function showEditForm() {
         //게시글 수정하기위해 게시글 불러옴
-        fetchWithAuth(`/api/boards/${currentBoardId}`, {
+        fetchWithAuth(`/boards/${currentBoardId}`, {
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             headers: (localStorage.getItem("accessToken"))
                 ? { "Authorization": "Bearer " + localStorage.getItem("accessToken") }
@@ -350,7 +350,7 @@
             title: document.getElementById('edit-title').value,
             content: document.getElementById('edit-content').value
         };
-        fetchWithAuth(`/api/boards/${currentBoardId}`, {
+        fetchWithAuth(`/boards/${currentBoardId}`, {
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             method: 'PUT',
             headers: Object.assign(

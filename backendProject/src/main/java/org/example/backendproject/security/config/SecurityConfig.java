@@ -39,7 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
 
                         //인증이 필요한 경로
-                        .requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/api/**","/boards","/boards/**","/api/comments","/api/comments/**").authenticated()
 
 
                 )
