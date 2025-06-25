@@ -133,7 +133,7 @@
         const keyword = document.getElementById('search').value;
         //fetchWithAuth(`/boards/search?keyword=${encodeURIComponent(keyword)}&page=${page}&size=${pageSize}&sort=title,desc`,{ //정렬
       //  fetchWithAuth(`/boards/search?keyword=${encodeURIComponent(keyword)}&page=${page}&size=${pageSize}`,{  // jpa 검색
-        fetchWithAuth(`/boards/elasticsearch?keyword=${encodeURIComponent(keyword)}&page=${page}&size=${pageSize}`,{ //엘라스틱서치 검색
+        fetchWithAuth(`/api/boards/elasticsearch?keyword=${encodeURIComponent(keyword)}&page=${page}&size=${pageSize}`,{ //엘라스틱서치 검색
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             headers: (localStorage.getItem("accessToken"))
                 ? { "Authorization": "Bearer " + localStorage.getItem("accessToken") }
@@ -193,7 +193,7 @@
     //페이징 적용
     function loadBoards(page = 0) {
         //fetchWithAuth(`/boards?page=${page}&size=${pageSize}&sort=title,desc`, { //정렬
-        fetchWithAuth(`/boards?page=${page}&size=${pageSize}`, {
+        fetchWithAuth(`/api/boards/all?page=${page}&size=${pageSize}`, {
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             headers: (localStorage.getItem("accessToken"))
                 ? { "Authorization": "Bearer " + localStorage.getItem("accessToken") }
@@ -250,6 +250,7 @@
         document.getElementById('write-msg').innerHTML = '';
     }
 
+    //게시글 작성
     document.getElementById('write-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const userId = localStorage.getItem("user_id");
@@ -262,7 +263,7 @@
             content: document.getElementById('content').value,
             userId: Number(userId)
         };
-        fetchWithAuth('/boards', {
+        fetchWithAuth('/api/boards', {
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             method: 'POST',
             headers: Object.assign(
@@ -284,9 +285,10 @@
     });
 
     let currentBoardId = null;
+    //상세보기
     function showDetail(id) {
 
-        fetchWithAuth(`/boards/my`, {
+        fetchWithAuth(`/api/boards/${id}`, {
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             headers: (localStorage.getItem("accessToken"))
                 ? { "Authorization": "Bearer " + localStorage.getItem("accessToken") }
@@ -321,7 +323,8 @@
             });
     }
     function showEditForm() {
-        fetchWithAuth(`/boards/my`, {
+        //게시글 수정하기위해 게시글 불러옴
+        fetchWithAuth(`/api/boards/${currentBoardId}`, {
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             headers: (localStorage.getItem("accessToken"))
                 ? { "Authorization": "Bearer " + localStorage.getItem("accessToken") }
@@ -339,13 +342,15 @@
                 document.getElementById('search-area').style.display = 'none'; // ← 검색창 숨기기
             });
     }
+
+    //게시글 수정
     document.getElementById('edit-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const data = {
             title: document.getElementById('edit-title').value,
             content: document.getElementById('edit-content').value
         };
-        fetchWithAuth(`/boards/my`, {
+        fetchWithAuth(`/api/boards/${currentBoardId}`, {
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             method: 'PUT',
             headers: Object.assign(
@@ -365,6 +370,7 @@
                 document.getElementById('edit-msg').innerHTML = `<span class="error">수정 실패: ${err.message}</span>`;
             });
     });
+
     function deleteBoard() {
         if(!confirm("정말 삭제하시겠습니까?")) return;
         fetchWithAuth(`/boards/${currentBoardId}`, {
