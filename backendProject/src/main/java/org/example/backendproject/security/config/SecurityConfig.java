@@ -31,13 +31,16 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth)->auth
 
+                        //인증이 필요없는 경로
                         .requestMatchers("/","/index.html", "/*.html", "/favicon.ico",
                                 "/css/**", "/fetchWithAuth.js","/js/**", "/images/**",
                                 "/.well-known/**").permitAll() // 정적 리소스 누구나 접근
+                        .requestMatchers("/boards/**",  "/boards","/api/auth/**").permitAll()
 
-                        .requestMatchers("/boards/**",  "/boards").permitAll()
+                        //인증이 필요한 경로
+                        .requestMatchers("/api/user/**").authenticated()
 
-                        .requestMatchers("/api/auth/**").permitAll() //인증이 필요한 경로
+
                 )
                 //인증 실패시 예외처리
                 .exceptionHandling(e ->e
