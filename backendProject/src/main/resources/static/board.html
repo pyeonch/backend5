@@ -286,7 +286,7 @@
     let currentBoardId = null;
     function showDetail(id) {
 
-        fetchWithAuth(`/boards/${id}`, {
+        fetchWithAuth(`/boards/my`, {
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             headers: (localStorage.getItem("accessToken"))
                 ? { "Authorization": "Bearer " + localStorage.getItem("accessToken") }
@@ -321,7 +321,7 @@
             });
     }
     function showEditForm() {
-        fetchWithAuth(`/boards/${currentBoardId}`, {
+        fetchWithAuth(`/boards/my`, {
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             headers: (localStorage.getItem("accessToken"))
                 ? { "Authorization": "Bearer " + localStorage.getItem("accessToken") }
@@ -345,7 +345,7 @@
             title: document.getElementById('edit-title').value,
             content: document.getElementById('edit-content').value
         };
-        fetchWithAuth(`/boards/${currentBoardId}`, {
+        fetchWithAuth(`/boards/my`, {
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             method: 'PUT',
             headers: Object.assign(
