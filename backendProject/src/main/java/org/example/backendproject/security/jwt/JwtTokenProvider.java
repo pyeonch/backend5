@@ -45,17 +45,18 @@ public class JwtTokenProvider {
                 .parserBuilder() //JWT 토큰을 헤석하겠다고 선언
                 .setSigningKey(secretKey) //토큰을 검증하기 위해 비밀키 사용
                 .build() //해석할 준비완료
-                .parseClaimsJwt(token) //전달 받은 토큰을 파싱
+                .parseClaimsJws(token) //전달 받은 토큰을 파싱
                 .getBody() //파싱한 토큰의 payload 부분을 꺼내서
                 .get("user-id", Long.class); //user-id 를 반환
     }
 
+    //토큰 유효성 검사
     public Boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
-                    .parseClaimsJwt(token);
+                    .parseClaimsJws(token);
             return true;
         }
         catch (MalformedJwtException e){
