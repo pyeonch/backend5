@@ -18,7 +18,7 @@ public class LoginResponseDTO {
     @Builder
     public LoginResponseDTO(Auth auth) {
         this.tokenType = auth.getTokenType();
-        this.accessToken = auth.getRefreshToken();
+        this.accessToken = auth.getAccessToken();
         this.refreshToken = auth.getRefreshToken();
         this.userId = auth.getId();
     }
