@@ -20,12 +20,11 @@ import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/boards")
+@RequestMapping("/boards")
 @RequiredArgsConstructor
 public class BoardController {
 
     private final BoardService boardService;
-    private final UserRepository  userRepository;
 
 
     /** 글 작성 **/
@@ -42,24 +41,33 @@ public class BoardController {
     /** 게시글 상세 조회 **/
     @GetMapping("/{id}")
     public ResponseEntity<BoardDTO> getBoardDetail(@PathVariable Long id) {
-//        Long userid = customUserDetails.getId();
-//        if (userRepository.findById(userid).isEmpty()) {  //    <- service 단으로
-//            throw new UsernameNotFoundException("해당 유저가 존재하지 않습니다.");
-//        }
         return ResponseEntity.ok(boardService.getBoardDetail(id));
     }
 
     /** 게시글 수정 **/
     @PutMapping("/{id}")
-    public ResponseEntity<BoardDTO> updateBoard(@PathVariable Long id, @RequestBody BoardDTO boardDTO) {
-        return ResponseEntity.ok(boardService.updateBoard(id, boardDTO));
+    public ResponseEntity<?> updateBoard(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable Long id,
+            @RequestBody BoardDTO boardDTO) {
+        Long userig = customUserDetails.getId();
+        if (userig.equals(boardDTO.getUser_id())) {
+            //내가 쓴글이면 수정
+            return ResponseEntity.ok(boardService.updateBoard(id, boardDTO));
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("수정 권한이 없습니다");
+        }
     }
 
     /** 게시글 삭제 **/
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBoard(@PathVariable Long id) {
-        boardService.deleteBoard(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteBoard(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable Long id) {
+        Long userid = customUserDetails.getId();
+        boardService.deleteBoard(userid,id);
+        return ResponseEntity.ok("게시글이 성공적으로 삭제되었습니다.");
     }
 
 

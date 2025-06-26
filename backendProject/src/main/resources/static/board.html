@@ -263,7 +263,7 @@
             content: document.getElementById('content').value,
             userId: Number(userId)
         };
-        fetchWithAuth('/api/boards', {
+        fetchWithAuth('/boards', {
             credentials: "include", // 쿠키도 항상 보냄 (로컬, CORS 모두 안전)
             method: 'POST',
             headers: Object.assign(
