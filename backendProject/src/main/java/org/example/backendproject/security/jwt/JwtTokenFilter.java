@@ -35,7 +35,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
 
-        log.info("path : {}", path);
+     //   log.info("path : {}", path);
 
         // 정적 파일 경로, 필터
         return path.startsWith("/css/")
@@ -45,6 +45,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 || path.equals("/index.html")
                 || path.endsWith(".html")
                 || path.startsWith("/favicon.ico")
+                || path.startsWith("/actuator/prometheus")
                 || path.startsWith("/api/auth/");
 
         /**
@@ -73,12 +74,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             String url = request.getRequestURI().toString();
             String method = request.getMethod(); // "GET, POST, PUT"
 
-            log.info("현재 들어온 HTTP 요청 = {}",url);
-            log.info("✅ 토큰 인증 성공:{} " ,accessToken);
+         //   log.error("현재 들어온 HTTP 요청 = {}",url);
+          //  log.error("✅ 토큰 인증 성공:{} " ,accessToken);
 
         }
         else {
-            log.info("❌ 토큰 없음 또는 유효하지 않음: {}" ,accessToken);
+           // log.info("❌ 토큰 없음 또는 유효하지 않음: {}" ,accessToken);
         }
 
 

@@ -35,6 +35,7 @@ public class BoardService {
     @Transactional
     public BoardDTO createBoard(BoardDTO boardDTO) {
 
+
         // userId(PK)를 이용해서 User 조회
         if (boardDTO.getUser_id() == null)
             throw new IllegalArgumentException("userId(PK)가 필요합니다!");
@@ -67,11 +68,13 @@ public class BoardService {
     /** 게시글 수정 **/
     @Transactional
     public BoardDTO updateBoard(Long boardId, BoardDTO dto) {
+
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("게시글 없음: " + boardId));
         board.setTitle(dto.getTitle());
         board.setContent(dto.getContent());
         boardRepository.save(board);
+
         return toDTO(board);
     }
 
