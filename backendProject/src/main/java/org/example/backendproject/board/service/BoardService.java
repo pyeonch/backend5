@@ -65,6 +65,7 @@ public class BoardService {
                 .username(board.getUser().getUserProfile().getUsername())
                 .created_date(String.valueOf(board.getCreated_date()))
                 .updated_date(String.valueOf(board.getUpdated_date()))
+                .view_count(board.getViewCount())
                 .build();
         boardEsService.save(doc);
 
@@ -87,7 +88,7 @@ public class BoardService {
         BoardEsDocument esDocument = boardEsRepository.findById(String.valueOf(boardId))
                 .orElseThrow(()->new IllegalArgumentException("ES에 게시글 없음 : "+boardId));
 
-        esDocument.setViewCount(board.getViewCount());
+        esDocument.setView_count(board.getViewCount());
         boardEsService.save(esDocument);
 
 

@@ -139,7 +139,7 @@ PUT /board-index
 
 
       "id": {
-        "type": "text",                   // ⚠️ 원래는 keyword로 쓰는 게 더 좋음 (식별자니까)
+        "type": "long",                   // ⚠️ 원래는 keyword로 쓰는 게 더 좋음 (식별자니까)
         "fields": {
           "keyword": {
             "type": "keyword",
@@ -171,7 +171,7 @@ PUT /board-index
           "type": "date",
           "format": "yyyy-MM-dd HH:mm:ss.SSSSSS||yyyy-MM-dd HH:mm:ss||strict_date_optional_time||epoch_millis"
       },
-      "viewCount": {
+      "view_count": {
         "type": "long"
       }
 
